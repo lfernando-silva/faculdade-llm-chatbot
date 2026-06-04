@@ -1,9 +1,9 @@
 # chatbot-llm
 
 ## Variáveis de ambiente (.env)
-HF_TOKEN=[token do hugging face para download dos modelos]
-MODEL_REPO=[nome do repositório no hugging face]
-MODEL_NAME=[nome do modelo no hugging face]
+- HF_TOKEN=[token do hugging face para download dos modelos]
+- MODEL_REPO=[nome do repositório no hugging face]
+- MODEL_NAME=[nome do modelo no hugging face]
 
 ## Virtual python env
 python3 -m venv venv
