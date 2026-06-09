@@ -86,7 +86,7 @@ modelo = Path(model_path).resolve()
 # Carrega o modelo
 llm = Llama(
     model_path=str(modelo),
-    n_ctx=4096,
+    n_ctx=262144,
     n_threads=os.cpu_count(),
     verbose=False,
 )
@@ -97,6 +97,7 @@ system_prompt = (
     "Você é um especialista em videogames. "
     "Responda sempre em português do Brasil. "
     "Utilize as informações fornecidas no contexto quando disponíveis."
+    "Considere que o rank se refere ao campo 'Rank' do arquivo CSV"
 )
 
 historico = [
