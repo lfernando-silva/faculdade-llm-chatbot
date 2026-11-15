@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from datetime import datetime
 
 import faiss
 import pandas as pd
@@ -15,9 +16,22 @@ load_dotenv()
 MODEL_REPO = os.getenv("MODEL_REPO") ## repositório no hugging face
 MODEL_NAME = os.getenv("MODEL_NAME") ## nome do arquivo no hf
 HF_TOKEN = os.getenv("HF_TOKEN") ## token do hf, não obrigatório mas acelera o download do modelo
+CHAT_LOG = os.getenv("CHAT_LOG", "chat.log") ## caminho para os logs de conversa
 
+log_path = Path(CHAT_LOG)
+log_path.parent.mkdir(parents=True, exist_ok=True)
 ## Limite de mensagens no historico, para não estourar o contexto
 MAX_MSGS = 20
+
+def salvar_log(pergunta: str, resposta: str):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(log_path, "a", encoding="utf-8") as arquivo:
+        arquivo.write("\n")
+        arquivo.write("=" * 80 + "\n")
+        arquivo.write(f"[{timestamp}]\n")
+        arquivo.write(f"Usuário: {pergunta}\n")
+        arquivo.write(f"Bot: {resposta}\n")
 
 if not MODEL_REPO or not MODEL_NAME:
     print(
@@ -166,6 +180,8 @@ while True:
 
     ## A reposta será sempre a primeira escolha
     texto = resposta["choices"][0]["message"]["content"]
+
+    salvar_log(pergunta, texto)
 
     historico.append({ "role": "assistant", "content": texto})
 
